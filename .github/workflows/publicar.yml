@@ -1,5 +1,5 @@
 # Compila el instalador del panel en una máquina Windows de GitHub y lo publica como release.
-# Se dispara solo al subir un tag vX.Y.Z (lo hace tc\publicar-panel.ps1).
+# Con un tag vX.Y.Z (lo sube tc\publicar-panel.ps1) publica la versión; si se corre a mano, solo compila de prueba.
 name: Publicar panel
 on:
   push:
