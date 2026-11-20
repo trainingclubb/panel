@@ -1,0 +1,57 @@
+{
+  "name": "training-club",
+  "productName": "Training Club",
+  "version": "1.1.46",
+  "description": "Training Club — la app de tu gimnasio. Una marca de Forge Studio.",
+  "author": "Forge Studio",
+  "main": "main.js",
+  "scripts": {
+    "dist": "electron-builder --win nsis --x64",
+    "publish": "electron-builder --win nsis --x64 --publish always"
+  },
+  "build": {
+    "appId": "com.adforge.trainingclub",
+    "productName": "Training Club",
+    "copyright": "Forge Studio",
+    "files": [
+      "main.js",
+      "preload.js",
+      "app/**/*"
+    ],
+    "directories": {
+      "output": "dist",
+      "buildResources": "build"
+    },
+    "win": {
+      "target": "nsis",
+      "icon": "build/icon.ico",
+      "artifactName": "TrainingClub-Setup.${ext}"
+    },
+    "nsis": {
+      "oneClick": false,
+      "allowToChangeInstallationDirectory": true,
+      "perMachine": false,
+      "createDesktopShortcut": true,
+      "createStartMenuShortcut": true,
+      "shortcutName": "Training Club",
+      "installerIcon": "build/icon.ico",
+      "uninstallerIcon": "build/icon.ico",
+      "language": "3082"
+    },
+    "publish": [
+      {
+        "provider": "github",
+        "owner": "trainingclubb",
+        "repo": "panel",
+        "releaseType": "release"
+      }
+    ]
+  },
+  "devDependencies": {
+    "electron": "^33.2.1",
+    "electron-builder": "^25.1.8"
+  },
+  "dependencies": {
+    "electron-updater": "^6.3.9"
+  }
+}
