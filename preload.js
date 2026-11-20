@@ -6,5 +6,6 @@ contextBridge.exposeInMainWorld('tcDesktop', {
   download: () => ipcRenderer.send('tc-download'),
   install: () => ipcRenderer.send('tc-install'),
   manual: () => ipcRenderer.send('tc-manual'),
+  foco: () => ipcRenderer.send('tc-foco'),
   onStatus: (cb) => { ipcRenderer.on('tc-update', (_e, s) => cb(s)); const l = ipcRenderer.sendSync('tc-last'); if (l && l.state !== 'idle') cb(l); },
 });

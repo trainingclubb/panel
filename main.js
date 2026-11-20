@@ -59,12 +59,14 @@ ipcMain.on('tc-install', instalar);
 ipcMain.on('tc-manual', () => shell.openExternal('https://github.com/trainingclubb/panel/releases/latest'));
 ipcMain.on('tc-version', (e) => { e.returnValue = app.getVersion(); });
 ipcMain.on('tc-last', (e) => { e.returnValue = last; });
+// al tocar una notificación del panel, se trae la ventana adelante
+ipcMain.on('tc-foco', () => { if (win && !win.isDestroyed()) { if (win.isMinimized()) win.restore(); win.show(); win.focus(); } });
 
 function crear() {
   win = new BrowserWindow({ width: 1180, height: 900, minWidth: 420, minHeight: 640,
     backgroundColor: '#070807', title: 'Training Club', icon: path.join(__dirname, 'app', 'icon.png'),
     autoHideMenuBar: true,
-    webPreferences: { contextIsolation: true, sandbox: true, preload: path.join(__dirname, 'preload.js') }});
+    webPreferences: { contextIsolation: true, sandbox: true, backgroundThrottling: false, preload: path.join(__dirname, 'preload.js') }});
   Menu.setApplicationMenu(null);
   win.webContents.setWindowOpenHandler(({ url }) => { shell.openExternal(url); return { action: 'deny' }; });
   win.loadFile(path.join(__dirname, 'app', 'index.html'));
@@ -76,6 +78,7 @@ function crear() {
 if (!app.requestSingleInstanceLock()) app.quit();
 else {
   app.on('second-instance', () => { if (win) { if (win.isMinimized()) win.restore(); win.focus(); } });
+  if (process.platform === 'win32') app.setAppUserModelId('com.adforge.trainingclub');   // para que Windows muestre las notificaciones del panel
   app.whenReady().then(() => { crear(); setInterval(check, 30 * 60 * 1000); });
   app.on('window-all-closed', () => app.quit());
 }
