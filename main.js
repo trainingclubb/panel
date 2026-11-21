@@ -68,7 +68,11 @@ function crear() {
     autoHideMenuBar: true,
     webPreferences: { contextIsolation: true, sandbox: true, backgroundThrottling: false, preload: path.join(__dirname, 'preload.js') }});
   Menu.setApplicationMenu(null);
-  win.webContents.setWindowOpenHandler(({ url }) => { shell.openExternal(url); return { action: 'deny' }; });
+  function abrirWeb(url) {
+    try { const destino = new URL(url); if (destino.protocol === 'https:') shell.openExternal(destino.href).catch(() => {}); } catch {}
+  }
+  win.webContents.setWindowOpenHandler(({ url }) => { abrirWeb(url); return { action: 'deny' }; });
+  win.webContents.on('will-navigate', (event, url) => { event.preventDefault(); abrirWeb(url); });
   win.loadFile(path.join(__dirname, 'app', 'index.html'));
   win.webContents.once('did-finish-load', () => setTimeout(check, 800));
   // al volver a la ventana, si pasaron más de 5 minutos, se vuelve a buscar
