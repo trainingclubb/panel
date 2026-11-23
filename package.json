@@ -1,7 +1,7 @@
 {
   "name": "training-club",
   "productName": "Training Club",
-  "version": "1.1.64",
+  "version": "1.1.65",
   "description": "Training Club — la app de tu gimnasio. Una marca de Forge Studio.",
   "author": "Forge Studio",
   "main": "main.js",
